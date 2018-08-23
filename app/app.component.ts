@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 class Task{
     id:number;
@@ -22,13 +22,31 @@ let TASKS:Task[] = [
     template: `
     <h1>{{ title }}</h1>
     <ul>
-        <li *ngFor="let item of tasks">
+        <li *ngFor="let item of tasks" (click)="onClick(item)">
         {{ item.id }} - {{ item.name }}
         </li>
     </ul>
+    <task-edit [task]="selectedTask"></task-edit>
     `
 })
 export class AppComponent{
     title = 'Lista de tarefas';
     tasks:Task[] = TASKS;
+    selectedTask:Task;
+
+    onClick(task){
+        this.selectedTask = task;
+    }
+}
+
+
+@Component({
+    selector: 'task-edit',
+    template: `
+    <div *ngIf="task">
+        <input type="text" [(ngModel)]="task.name">
+    </div>`
+})
+export class TaskEditComponent{
+    @Input() task:Task;
 }

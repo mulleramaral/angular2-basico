@@ -5,6 +5,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Task = /** @class */ (function () {
@@ -29,13 +32,32 @@ var AppComponent = /** @class */ (function () {
         this.title = 'Lista de tarefas';
         this.tasks = TASKS;
     }
+    AppComponent.prototype.onClick = function (task) {
+        this.selectedTask = task;
+    };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
-            template: "\n    <h1>{{ title }}</h1>\n    <ul>\n        <li *ngFor=\"let item of tasks\">\n        {{ item.id }} - {{ item.name }}\n        </li>\n    </ul>\n    "
+            template: "\n    <h1>{{ title }}</h1>\n    <ul>\n        <li *ngFor=\"let item of tasks\" (click)=\"onClick(item)\">\n        {{ item.id }} - {{ item.name }}\n        </li>\n    </ul>\n    <task-edit [task]=\"selectedTask\"></task-edit>\n    "
         })
     ], AppComponent);
     return AppComponent;
 }());
 exports.AppComponent = AppComponent;
+var TaskEditComponent = /** @class */ (function () {
+    function TaskEditComponent() {
+    }
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Task)
+    ], TaskEditComponent.prototype, "task", void 0);
+    TaskEditComponent = __decorate([
+        core_1.Component({
+            selector: 'task-edit',
+            template: "\n    <div *ngIf=\"task\">\n        <input type=\"text\" [(ngModel)]=\"task.name\">\n    </div>"
+        })
+    ], TaskEditComponent);
+    return TaskEditComponent;
+}());
+exports.TaskEditComponent = TaskEditComponent;
 //# sourceMappingURL=app.component.js.map
